@@ -101,7 +101,7 @@ Install this project with:
 To run the project, execute the following command:
 
 ```sh
-  ruby main.rb
+  ruby result.rb
 ```
 
 ### Run tests

@@ -1,10 +1,5 @@
 <a name="readme-top"></a>
 
-<div align="center">
-  <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
-  <img src="https://raw.githubusercontent.com/microverseinc/curriculum-ruby/main/oop/images/uml_class_diagram.png?token=GHSAT0AAAAAACERUH64RKVVASM7MUHT6LYSZF6NL7Q" alt="logo" width="140"  height="auto" />
-  <br/>
-
 <h3><b>OOP School Library</b></h3>
 
 </div>
@@ -47,13 +42,6 @@
   </ul>
 </details>
 
-<details>
-<summary>Database</summary>
-  <ul>
-    <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
-  </ul>
-</details>
-
 <!-- Features -->
 
 ### Key Features <a name="key-features"></a>
@@ -75,7 +63,6 @@ To get a local copy up and running, follow these steps.
 In order to run this project you need:
 
 - `Ruby 3.2.2`
-- `PostgreSQL`
 - `VSCode` or `RubyMine`
 
 ### Setup
@@ -92,7 +79,7 @@ Clone this repository to your desired folder:
 Install this project with:
 
 ```sh
-  cd my-project
+  cd oop-school-library
   bundle install
 ```
 
@@ -165,6 +152,6 @@ I would like to thank Microverse
 
 ## 📝 License <a name="license"></a>
 
-This project is [MIT](./MIT.md) licensed.
+This project is [MIT](./LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -7,7 +7,7 @@ class Teacher < Person
     @specialization = specialization
   end
 
-  def an_use_services?
+  def can_use_services?
     true
   end
 end

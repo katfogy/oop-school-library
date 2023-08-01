@@ -1,131 +1,131 @@
-require_relative 'book'
 require_relative 'person'
-require_relative 'rental'
+require_relative 'book'
 require_relative 'student'
 require_relative 'teacher'
+require_relative 'rental'
 require_relative 'inputs'
+require_relative 'preserve_data'
 
 class App
+  attr_accessor :person, :books, :rentals
+
   def initialize
+    @person = []
     @books = []
-    @people = []
     @rentals = []
   end
 
+  def create_book
+    puts ''
+    print 'Enter book title: '
+    title = Input.new.user_input
+    print 'Enter book author: '
+    author = Input.new.user_input
+    @books << Book.new(title, author)
+    write_file('books.json', @books)
+    puts 'Success'
+  end
+
   def list_all_books
-    puts 'LIST OF ALL AVAILABLE BOOKS:'
-    if @books.empty?
-      puts 'No books available'
-    else
-      @books.each do |book|
-        puts "Title: #{book.title}, Author: #{book.author}"
-      end
+    puts 'All books:'
+    @books = read_file('books.json')
+    @books.each { |book| puts "Title: #{book['title']}, Author: #{book['author']}" }
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def create_person
+    puts ''
+    print 'Enter 1 to add Student and 2 to add Teacher: '
+    selection = Input.new.user_input_to_i
+    print 'Enter name: '
+    name = Input.new.user_input
+    print 'Enter age: '
+    age = Input.new.user_input_to_i
+
+    case selection
+    when 1
+      print 'Does student have parent permission [Y/N]: '
+      permission = Input.new.user_input
+      student = Student.new(age, 1, permission, name)
+      @person << student
+    when 2
+      print 'What is the teacher\'s specialization: '
+      specialization = Input.new.user_input
+      teacher = Teacher.new(age, specialization, name)
+      @person << teacher
     end
+
+    write_file('people.json', @person)
+
+    print 'Success'
   end
 
   def list_all_people
-    puts 'LIST OF PEOPLE:'
-    if @people.empty?
-      puts 'No person available'
-    else
-      @people.each do |person|
-        puts " [#{person.class}] Name:#{person.name}, Age:#{person.age}, ID:#{person.id}"
+    puts 'All People:'
+    @person = read_file('people.json')
+    @person.each do |person|
+      puts ''
+      puts(person['class'])
+      puts "Name: #{person['name']}"
+      puts "ID: #{person['id']}"
+      puts "Age: #{person['age']}"
+
+      if person.instance_of?(Teacher)
+        puts "Specialization: #{person['specialization']}"
+      else
+        puts "Permission: #{person['parent_permission']}"
       end
     end
   end
 
-  def create_person
-    print 'Do you want to create a Student (1) or a Teacher (2)? [Input the number]:'
-    choice = Inputs.user_input_to_i
+  def add_rental
+    puts ''
+    puts 'Select a book from below by number: '
+    @books = read_file('books.json')
 
-    if choice == 1
-      create_student
-    elsif choice == 2
-      create_teacher
-    else
-      puts 'Invalid choice. Please choose 1 for Student or 2 for Teacher.'
+    @books.each_with_index { |book, index| puts "#{index} - Title: #{book['title']}, Author: #{book['author']}" }
+    puts ''
+    book_num = Input.new.user_input_to_i
+    puts ''
+
+    puts 'Select a person from below by number: '
+    @person = read_file('people.json')
+
+    @person.each_with_index do |person, index|
+      puts "#{index} - Age: #{person['age']}, Name: #{person['name']}"
     end
-  end
+    puts ''
+    person_num = Input.new.user_input_to_i
+    puts ''
 
-  def create_student
-    print 'Name: '
-    name = Inputs.user_input
+    print 'Date (yyyy/mm/dd): '
+    date = Input.new.user_input
 
-    print 'Age: '
-    age = Inputs.user_input_to_i
-
-    print 'Has parent permission [Y/N]: '
-    parent_permission = Inputs.user_input
-
-    if parent_permission.downcase == 'n'
-      student = Student.new('classroom', name, true, age)
-    elsif parent_permission.downcase == 'y'
-      student = Student.new('classroom', name, false, age)
-    else
-      puts 'Invalid Selection'
-      return
-    end
-    @people << student
-    puts 'Student Created Successfully'
-  end
-
-  def create_teacher
-    print 'Name: '
-    name = Inputs.user_input
-
-    print 'Age: '
-    age = Inputs.user_input_to_i
-
-    print 'Specialization: '
-    specialization = Inputs.user_input
-    teacher = Teacher.new(specialization, name, true, age)
-    @people << teacher
-    puts 'Teacher Created Successfully'
-  end
-
-  def create_book
-    print 'Title: '
-    title = Inputs.user_input
-
-    print 'Author: '
-    author = Inputs.user_input
-
-    book = Book.new(title, author)
-    @books << book
-    puts 'Book Created Successfully'
-  end
-
-  def create_rental
-    puts 'Select a book from the following lists'
-    @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
-    book_index = Inputs.user_input_to_i
-
-    puts 'Select a person from the following list by number (not id)'
-    @people.each_with_index do |person, index|
-      puts "#{index}) Name: #{person.name}, AGE: #{person.age}, ID: #{person.id}"
-    end
-    person_index = Inputs.user_input_to_i
-
-    print 'Date: '
-    date_of_rental = Inputs.user_input
-
-    rental = Rental.new(date_of_rental, @books[book_index], @people[person_index])
+    rental = Rental.new(date, @books[book_num], @person[person_num])
     @rentals << rental
-    puts 'Rental created successfully'
+    write_file('rental.json', @rentals)
+    puts ''
+    puts 'Success'
   end
 
-  def list_rentals
-    print "\nID of the person: "
-    person_id = Inputs.user_input_to_i
-
-    found_rentals = @rentals.select { |rental| rental.person.id == person_id }
-
-    if found_rentals.empty?
-      puts "There are currently no rented books in the system under #{person_id} id."
+  # rubocop:enable Metrics/MethodLength
+  def list_all_rentals
+    rentals = read_file('rental.json')
+    puts 'Enter the person ID to list rentals:'
+    people = read_file('people.json')
+    @person.clear
+    people.each_with_index do |person, _index|
+      puts "#{person['id']} - Name: #{person['name']}, Age: #{person['age']}"
+    end
+    person_id = gets.chomp.to_i
+    rentals_available = rentals.select { |rental| rental['person']['id'] == person_id }
+    if rentals_available.empty?
+      puts "No rentals available for the person with ID #{person_id}."
     else
-      puts 'Rentals:'
-      found_rentals.each do |rental|
-        puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}"
+      puts "Listing rentals for the person with ID #{person_id}:"
+      rentals_available.each do |rental|
+        puts "Rental Date: #{rental['date']}"
+        puts
       end
     end
   end
@@ -202,7 +202,7 @@ class AddRentalAction
   end
 
   def execute
-    @app.create_rental
+    @app.add_rental
   end
 end
 
@@ -212,7 +212,7 @@ class ListRentalsAction
   end
 
   def execute
-    @app.list_rentals
+    @app.list_all_rentals
   end
 end
 

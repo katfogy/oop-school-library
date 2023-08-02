@@ -1,7 +1,7 @@
 require_relative '../book'
 
 describe Book do
-  let(:book) { Book.new('The Lord of the Rings', 'J. R. R. Tolkien') }
+  let(:book) { Book.new('Introduction to CyberSecurity', 'NSUK') }
 
   describe '#initialize' do
     it 'creates a new book' do
@@ -19,8 +19,8 @@ describe Book do
     it 'serializes a book' do
       expect(book.serialize).to eq(
         {
-          'title' => 'The Lord of the Rings',
-          'author' => 'J. R. R. Tolkien',
+          'title' => 'Introduction to CyberSecurity',
+          'author' => 'NSUK',
           'id' => book.id
         }
       )

@@ -1,9 +1,9 @@
-class Inputs
-  def self.user_input
+class Input
+  def user_input
     gets.chomp
   end
 
-  def self.user_input_to_i
+  def user_input_to_i
     gets.chomp.to_i
   end
 end

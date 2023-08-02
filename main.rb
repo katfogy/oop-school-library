@@ -20,7 +20,7 @@ def main
 
   loop do
     puts list_options
-    option = Inputs.user_input_to_i
+    option = Input.new.user_input_to_i
     option_handler.handle_option(option)
   end
 end

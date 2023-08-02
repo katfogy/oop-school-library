@@ -110,6 +110,14 @@ To run tests, run the following command:
 - GitHub: [@githubhandle](https://github.com/katfogy)
 - Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/foga-amos-2b5371103/)
+
+
+👤 **Enning Festus**
+
+- GitHub: [@Enning94](https://github.com/Enning94)
+- Twitter: [@nana_akyerefi](https://twitter.com/nana_akyerefi)
+- LinkedIn: [Enning Festus](https://www.linkedin.com/in/enningfestus/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE FEATURES -->

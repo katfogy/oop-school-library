@@ -19,8 +19,8 @@ describe Book do
     it 'serializes a book' do
       expect(book.serialize).to eq(
         {
-          'title' => 'Introduction to CyberSecurity',
-          'author' => 'NSUK',
+          'title' => 'Alice in Wonderland',
+          'author' => 'Lewis Carrol',
           'id' => book.id
         }
       )

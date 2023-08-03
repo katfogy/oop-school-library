@@ -1,7 +1,7 @@
 require_relative '../book'
 
 describe Book do
-  let(:book) { Book.new('Introduction to CyberSecurity', 'NSUK') }
+  let(:book) { Book.new('Alice in Wonderland', 'Lewis Carrol') }
 
   describe '#initialize' do
     it 'creates a new book' do
